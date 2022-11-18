@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 const inflowSchema = joi.object({
   value: joi.number().required(),
   description: joi.string().required(),
+  type: joi.string().valid("in", "out").required()
 });
 
 export async function schemaValidateInflow(req, res, next) {
@@ -26,7 +27,8 @@ export async function schemaValidateInflow(req, res, next) {
       userID: user._id,
       date: dayjs().format("DD/MM"),
       value: inflow.value,
-      description: inflow.description
+      description: inflow.description,
+      type: inflow.type
     };
     req.inflowObject = inflowObject;
     next()

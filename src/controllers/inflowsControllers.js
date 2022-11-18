@@ -7,7 +7,6 @@ export async function postInflow(req, res) {
   }
 
   try {
-    console.log(inflowObject);
     await inflowsCollection.insertOne(inflowObject);
     return res.sendStatus(201);
   } catch (error) {
@@ -23,7 +22,6 @@ export async function getInflow(req, res) {
 
   try {
     const userInflows = await inflowsCollection.find({userID: userID}).toArray();
-    console.log(userInflows)
     if (!userInflows) {
       return res.send([]);
     }

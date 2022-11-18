@@ -15,6 +15,5 @@ export async function validateToken(req, res, next) {
   }
 
   req.userID = session.userID
-  console.log('here')
   next()
 }
