@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const mongoClient = new MongoClient(process.env.MONGO_URI);
-
+console.log(process.env.MONGO_URI)
 try {
     await mongoClient.db.connect();
     console.log('mongoDB connected')
@@ -11,7 +11,7 @@ try {
     console.log(error)
 };
 
-const db = mongoClient.db('wall.et');
+const db = mongoClient.db('wall_et');
 export const inflowsCollection = db.collection('inflows');
-export const userCollection = db.collection('users');
+export const usersCollection = db.collection('users');
 export const sessionsCollection = db.collection('sessions');
