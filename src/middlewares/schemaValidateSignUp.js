@@ -1,5 +1,6 @@
 import joi from "joi";
 import { usersCollection } from "../database/database.js";
+import bcrypt from 'bcrypt';
 
 const signUpSchema = joi.object({
   name: joi.string().required(),
@@ -8,7 +9,7 @@ const signUpSchema = joi.object({
 });
 
 export async function schemaValidateSignUp(req, res, next) {
-  const user = req.body;
+  let user = req.body;
   const { error } = signUpSchema.validate(user, {
     abortEarly: false,
   });
@@ -19,12 +20,17 @@ export async function schemaValidateSignUp(req, res, next) {
 
   try {
     const emailExists = await usersCollection.findOne({email: user.email});
-    if (userExists) {
+    if (emailExists) {
         return res.status(409).send("e-mail already in use");
     }
   } catch (error) {
-    
+    res.sendStatus(400);
   }
+
+  const encryptedPassword = bcrypt.hashSync(user.password, 10);
+
+  user = {...user, password: encryptedPassword};
+  console.log(user)
   req.user = user
   next()
 }
