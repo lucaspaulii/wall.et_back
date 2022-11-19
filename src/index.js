@@ -9,4 +9,6 @@ app.use(cors());
 app.use(usersRoutes);
 app.use(inflowRoutes);
 
-app.listen(5000, () => console.log("app running at: port 5000"))
+const port = process.env.PORT || 5000
+
+app.listen(port, () => console.log(`app running at: port ${port}`));
