@@ -16,7 +16,9 @@ export async function getInflow(req, res) {
   const userID = req.userID;
 
   try {
-    const userInflows = await inflowsCollection.find({ userID: userID }).toArray();
+    const userInflows = await inflowsCollection
+      .find({ userID: userID })
+      .toArray();
     if (!userInflows) {
       return res.send([]);
     }
@@ -33,7 +35,6 @@ export async function deleteInflow(req, res) {
     const inflowExists = await inflowsCollection.findOne({
       _id: ObjectId(inflowID),
     });
-    console.log(inflowExists);
     if (!inflowExists) {
       res, sendStatus(404);
     }
@@ -42,4 +43,26 @@ export async function deleteInflow(req, res) {
   } catch (error) {
     return res.sendStatus(401);
   }
+}
+
+export async function updateInflow(req, res) {
+  const inflowID = req.params.inflowID;
+  const inflowObject = req.inflowObject;
+
+  try {
+    console.log(inflowID);
+    const inflowExists = await inflowsCollection.findOne({
+      _id: ObjectId(inflowID),
+    });
+    if (!inflowExists) {
+      res, sendStatus(404);
+    }
+    await inflowsCollection.updateOne(
+      { _id: ObjectId(inflowID) },
+      {
+        $set: inflowObject,
+      }
+    );
+    res.sendStatus(200);
+  } catch (error) {}
 }
