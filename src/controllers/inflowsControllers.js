@@ -1,10 +1,8 @@
+import { ObjectId } from "mongodb";
 import { inflowsCollection } from "../database/database.js";
 
 export async function postInflow(req, res) {
   const inflowObject = req.inflowObject;
-  if (!inflowObject) {
-    return res.sendStatus(401);
-  }
 
   try {
     await inflowsCollection.insertOne(inflowObject);
@@ -16,16 +14,31 @@ export async function postInflow(req, res) {
 
 export async function getInflow(req, res) {
   const userID = req.userID;
-  if (!userID) {
-    return res.sendStatus(401);
-  }
 
   try {
-    const userInflows = await inflowsCollection.find({userID: userID}).toArray();
+    const userInflows = await inflowsCollection.find({ userID: userID }).toArray();
     if (!userInflows) {
       return res.send([]);
     }
     return res.send(userInflows);
+  } catch (error) {
+    return res.sendStatus(401);
+  }
+}
+
+export async function deleteInflow(req, res) {
+  const inflowID = req.params.inflowId;
+  try {
+    console.log(inflowID);
+    const inflowExists = await inflowsCollection.findOne({
+      _id: ObjectId(inflowID),
+    });
+    console.log(inflowExists);
+    if (!inflowExists) {
+      res, sendStatus(404);
+    }
+    await inflowsCollection.deleteOne({ _id: ObjectId(inflowID) });
+    res.sendStatus(200);
   } catch (error) {
     return res.sendStatus(401);
   }

@@ -1,12 +1,8 @@
 import { usersCollection } from "../database/database.js";
-import joi from "joi";
 import dayjs from "dayjs";
+import { inflowSchema } from "../modules/inflowSchema.js";
 
-const inflowSchema = joi.object({
-  value: joi.number().required(),
-  description: joi.string().required(),
-  type: joi.string().valid("in", "out").required()
-});
+
 
 export async function schemaValidateInflow(req, res, next) {
   const inflow = req.body;

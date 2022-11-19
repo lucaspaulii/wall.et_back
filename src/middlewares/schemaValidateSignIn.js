@@ -1,12 +1,7 @@
 import {  usersCollection } from "../database/database.js";
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
-import joi from "joi";
-
-const signInSchema = joi.object({
-  email: joi.string().email().required(),
-  password: joi.string().min(5).required(),
-});
+import { signInSchema } from "../modules/signInSchema.js";
 
 export async function schemaValidateSignIn(req, res, next) {
   const user = req.body;
