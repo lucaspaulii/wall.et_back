@@ -50,7 +50,6 @@ export async function updateInflow(req, res) {
   const inflowObject = req.inflowObject;
 
   try {
-    console.log(inflowID);
     const inflowExists = await inflowsCollection.findOne({
       _id: ObjectId(inflowID),
     });
