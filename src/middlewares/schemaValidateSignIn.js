@@ -1,4 +1,4 @@
-import {  usersCollection } from "../database/database.js";
+import { usersCollection } from "../database/database.js";
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
 import { signInSchema } from "../modules/signInSchema.js";
@@ -19,17 +19,18 @@ export async function schemaValidateSignIn(req, res, next) {
       return res.status(401).send("Invalid e-mail");
     }
     if (bcrypt.compareSync(user.password, emailExists.password)) {
-      let token = uuid();
+      const token = uuid();
       const sessionUser = {
         token,
         userID: emailExists._id,
       };
-      req.sessionUser = sessionUser
-      next()
+      req.sessionUser = sessionUser;
+      next();
       return;
     }
     return res.status(401).send("Invalid password");
   } catch (error) {
     res.sendStatus(400);
   }
+  return;
 }

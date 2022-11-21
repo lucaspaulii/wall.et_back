@@ -2,8 +2,6 @@ import { usersCollection } from "../database/database.js";
 import dayjs from "dayjs";
 import { inflowSchema } from "../modules/inflowSchema.js";
 
-
-
 export async function schemaValidateInflow(req, res, next) {
   const inflow = req.body;
   const userID = req.userID;
@@ -24,11 +22,12 @@ export async function schemaValidateInflow(req, res, next) {
       date: dayjs().format("DD/MM"),
       value: inflow.value,
       description: inflow.description,
-      type: inflow.type
+      type: inflow.type,
     };
     req.inflowObject = inflowObject;
-    next()
+    next();
   } catch (error) {
     return res.sendStatus(401);
   }
+  return;
 }

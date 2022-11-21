@@ -36,10 +36,10 @@ export async function deleteInflow(req, res) {
       _id: ObjectId(inflowID),
     });
     if (!inflowExists) {
-      res, sendStatus(404);
+      return res.sendStatus(404);
     }
     await inflowsCollection.deleteOne({ _id: ObjectId(inflowID) });
-    res.sendStatus(200);
+    return res.sendStatus(200);
   } catch (error) {
     return res.sendStatus(401);
   }
@@ -54,7 +54,7 @@ export async function updateInflow(req, res) {
       _id: ObjectId(inflowID),
     });
     if (!inflowExists) {
-      res, sendStatus(404);
+      res.sendStatus(404);
     }
     await inflowsCollection.updateOne(
       { _id: ObjectId(inflowID) },

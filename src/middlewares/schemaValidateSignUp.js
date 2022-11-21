@@ -26,4 +26,5 @@ export async function schemaValidateSignUp(req, res, next) {
   user = { ...user, password: encryptedPassword };
   req.user = user;
   next();
+  return;
 }
